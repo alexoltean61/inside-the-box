@@ -86,7 +86,7 @@ def main():
 		return
 	filename = sys.argv[1]
 	box_finder = InsideTheBox()
-	orig, gray = box_finder.read_image("table3.png")
+	orig, gray = box_finder.read_image(filename)
 	row_points, column_points  = box_finder.get_boxes(gray)
 	print(f"Columns: oX = {column_points}")
 	print(f"Rows:    oY = {row_points}")
