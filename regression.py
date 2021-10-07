@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from multiprocessing import Process, Queue, cpu_count
 
 class SegmentedLeastSquares:
 	def __init__(self, max_size, pool=None):
@@ -63,26 +64,14 @@ class SegmentedLeastSquares:
 			i = start
 		return ret[::-1]
 
-sls = SegmentedLeastSquares(1400)
-size = 800
-x    = np.linspace(start=342, stop=34523, num=size)
-y1    = sls.linear(333, 123, x[:size//2]) + 33*np.random.normal(size=size//2)
-y2    = sls.linear(195, -666, x[size//2:]) + 10*np.random.normal(size=size//2)
-y     = np.concatenate((y1, y2))#linear(1, 0, x + np.random.normal(size=size)) #
+def main():
+	sls = SegmentedLeastSquares(1400)
+	size = 800
+	x    = np.linspace(start=342, stop=34523, num=size)
+	y1    = sls.linear(333, 123, x[:size//2]) + 33*np.random.normal(size=size//2)
+	y2    = sls.linear(195, -666, x[size//2:]) + 10*np.random.normal(size=size//2)
+	y     = np.concatenate((y1, y2))#linear(1, 0, x + np.random.normal(size=size)) #
+	del sls
 
-sls.compute(x, y, 220)
-'''
-for i, j, a, b in sls.compute(x, y, 220):
-	plt.plot(x[i:j+1], sls.linear(a, b, x[i:j+1]))
-plt.show()
-
-size = 300
-x    = np.linspace(start=342, stop=34523, num=size)
-y1    = sls.linear(2, 3, x[:size//2]) + 1*np.random.normal(size=size//2)
-y2    = sls.linear(-6, -7, x[size//2:]) + 8*np.random.normal(size=size//2)
-y     = np.concatenate((y1, y2))#linear(1, 0, x + np.random.normal(size=size)) #
-
-for i, j, a, b in sls.compute(x, y, 220):
-	plt.plot(x[i:j+1], sls.linear(a, b, x[i:j+1]))
-plt.show()
-'''
+if __name__ == "__main__":
+	main()
